@@ -26,7 +26,7 @@ public class RaceCreateCommand extends RaceCommand {
 
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
-        StringBuilder description = null;
+        StringBuilder description = new StringBuilder();
         for (String word : args.subList(1, args.size())) {
             description.append(word).append(" ");
         }
