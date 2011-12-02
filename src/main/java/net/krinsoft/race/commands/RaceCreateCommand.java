@@ -2,6 +2,7 @@ package net.krinsoft.race.commands;
 
 import java.util.List;
 import net.krinsoft.race.RacePoints;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
@@ -30,9 +31,13 @@ public class RaceCreateCommand extends RaceCommand {
         for (String word : args.subList(1, args.size())) {
             description.append(word).append(" ");
         }
-        sender.sendMessage("Race name: " + args.get(0));
-        sender.sendMessage("Race description: " + description.toString());
-        sender.sendMessage("To be implemented.");
+        if (manager.createRace(args.get(0), description.toString()) > 0) {
+            sender.sendMessage("Race '" + ChatColor.AQUA + args.get(0) + ChatColor.WHITE + "' has been created!");
+            return;
+        } else {
+            sender.sendMessage("Either that race already exists, or an error occurred while trying to create it.");
+            return;
+        }
     }
 
 }

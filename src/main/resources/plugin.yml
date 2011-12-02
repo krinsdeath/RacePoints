@@ -2,6 +2,7 @@ name: RacePoints
 main: net.krinsoft.race.RacePoints
 version: ${project.version}
 author: krinsdeath
+softdepend: [WorldEdit]
 
 commands:
   racepoints:
