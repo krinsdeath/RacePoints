@@ -1,0 +1,12 @@
+name: RacePoints
+main: net.krinsoft.race.RacePoints
+version: ${project.version}
+author: krinsdeath
+
+commands:
+  racepoints:
+    description: Main command for RacePoints
+    aliases:
+      - race
+      - rp
+      - r
