@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import net.krinsoft.race.commands.*;
+import net.krinsoft.race.listeners.RPPlayerListener;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.Event.Priority;
+import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -27,6 +31,9 @@ public class RacePoints extends JavaPlugin {
     private CommandHandler commands;
     private RaceManager manager;
 
+    // listeners
+    private RPPlayerListener pListener;
+
     // worldedit handle
     private WorldEdit WEInstance;
 
@@ -35,6 +42,8 @@ public class RacePoints extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // build the default configuration
+        registerConfiguration();
         // get WorldEdit instance
         if (this.getConfig().getBoolean("plugin.worldedit")) {
             Plugin p = this.getServer().getPluginManager().getPlugin("WorldEdit");
@@ -73,13 +82,20 @@ public class RacePoints extends JavaPlugin {
         LOGGER.warning(message);
     }
 
+    // configuration builder
+    private void registerConfiguration() {
+        getConfig().set("plugin.worldedit", false);
+        getConfig().set("plugin.wand", 270);
+        saveConfig();
+    }
+
     // managers
-    public void registerManagers() {
+    private void registerManagers() {
         this.manager = new RaceManager(this);
     }
 
     // command handler
-    public void registerCommands() {
+    private void registerCommands() {
         // create the permissions and command handler objects
         this.permissions = new PermissionHandler(this);
         this.commands = new CommandHandler(this, this.permissions);
@@ -88,14 +104,20 @@ public class RacePoints extends JavaPlugin {
         this.commands.registerCommand(new RaceDeleteCommand(this));
         this.commands.registerCommand(new RaceSelectCommand(this));
         this.commands.registerCommand(new RaceListCommand(this));
-        //this.commands.registerCommand(new RaceCheckpointAddCommand(this));
+        this.commands.registerCommand(new RaceCheckpointAddCommand(this));
         //this.commands.registerCommand(new RaceCheckpointDeleteCommand(this));
         //this.commands.registerCommand(new RaceCheckpointInsertCommand(this));
     }
 
     // listeners
-    public void registerListeners() {
+    private void registerListeners() {
+        // get the PluginManager handle
+        PluginManager pm = this.getServer().getPluginManager();
+        // register the listeners
+        pListener = new RPPlayerListener(this);
 
+        pm.registerEvent(Type.PLAYER_INTERACT, pListener, Priority.Low, this);
+        pm.registerEvent(Type.PLAYER_CHANGED_WORLD, pListener, Priority.Low, this);
     }
 
     // get the race manager

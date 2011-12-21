@@ -3,6 +3,7 @@ package net.krinsoft.race.commands;
 import java.util.List;
 import net.krinsoft.race.Race;
 import net.krinsoft.race.RacePoints;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.PermissionDefault;
 
@@ -28,7 +29,12 @@ public class RaceSelectCommand extends RaceCommand {
     @Override
     public void runCommand(CommandSender sender, List<String> args) {
         Race race = manager.getRace(args.get(0));
-        sender.sendMessage("To be implemented.");
+        if (race != null) {
+            plugin.getSession(sender).setSelectedRace(race.getName());
+            sender.sendMessage(ChatColor.GREEN + "The race '" + race.getName() + "' has been selected.");
+        } else {
+            sender.sendMessage(ChatColor.RED + "That race doesn't exist.");
+        }
     }
 
 }

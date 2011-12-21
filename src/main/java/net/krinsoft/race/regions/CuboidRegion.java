@@ -48,4 +48,10 @@ public class CuboidRegion implements Region {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return minimum.getBlockX() + "," + minimum.getBlockY() + "," + minimum.getBlockZ() + ":" +
+               maximum.getBlockX() + "," + maximum.getBlockY() + "," + maximum.getBlockZ() + ":" +
+               this.world.getName();
+    }
 }

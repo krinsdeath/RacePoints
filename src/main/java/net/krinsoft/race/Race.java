@@ -51,6 +51,10 @@ public class Race {
         
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public boolean equals(Object a) {
         if (a == this) { return true; }

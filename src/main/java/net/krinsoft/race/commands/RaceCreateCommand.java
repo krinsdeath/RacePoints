@@ -31,7 +31,8 @@ public class RaceCreateCommand extends RaceCommand {
         for (String word : args.subList(1, args.size())) {
             description.append(word).append(" ");
         }
-        if (manager.createRace(args.get(0), description.toString()) > 0) {
+        if (manager.createRace(args.get(0), description.toString().trim()) > 0) {
+            plugin.getSession(sender).setSelectedRace(args.get(0));
             sender.sendMessage("Race '" + ChatColor.AQUA + args.get(0) + ChatColor.WHITE + "' has been created!");
             return;
         } else {

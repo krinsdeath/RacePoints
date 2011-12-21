@@ -31,7 +31,10 @@ public class RaceManager {
     }
 
     public Race getRace(String name) {
-        return null;
+        if (config.getString("races." + name + ".description") == null) {
+            return null;
+        }
+        return new Race(plugin, name, null);
     }
 
     public void startRace(final String name, List<String> racers) {
@@ -61,12 +64,22 @@ public class RaceManager {
         }
     }
 
-    public void addCheckpoint(String name, Region selection) {
-
+    public int addCheckpoint(String name, Region selection) {
+        List<String> checkpoints = config.getStringList("races." + name + ".checkpoints");
+        if (checkpoints == null) { return 0; }
+        checkpoints.add(selection.toString());
+        config.set("races." + name + ".checkpoints", checkpoints);
+        saveRaces();
+        return 1;
     }
 
-    public void addCheckpoint(String name, Region selection, int index) {
-
+    public int addCheckpoint(String name, Region selection, int index) {
+        List<String> checkpoints = config.getStringList("races." + name + ".checkpoints");
+        if (checkpoints == null || index > checkpoints.size()) { return 0; }
+        checkpoints.add(index, selection.toString());
+        config.set("races." + name + ".checkpoints", checkpoints);
+        saveRaces();
+        return 1;
     }
 
     public void deleteRace(String name) {

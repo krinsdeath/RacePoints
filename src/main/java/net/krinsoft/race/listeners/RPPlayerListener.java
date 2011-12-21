@@ -1,6 +1,5 @@
 package net.krinsoft.race.listeners;
 
-import net.krinsoft.race.PlayerSession;
 import net.krinsoft.race.RacePoints;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,7 +8,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
  *
@@ -26,6 +24,7 @@ public class RPPlayerListener extends PlayerListener {
         if (!this.worldedit) {
             WAND = Material.getMaterial(plugin.getConfig().getInt("plugin.wand"));
         }
+        System.out.println("Listener initialized. Wand: " + WAND.name());
     }
 
     @Override

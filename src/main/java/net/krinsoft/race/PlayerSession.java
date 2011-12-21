@@ -76,7 +76,7 @@ public class PlayerSession {
         if (racing) {
             return checkpoint + 1;
         } else {
-            return 0;
+            return -1;
         }
     }
 
